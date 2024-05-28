@@ -35,12 +35,6 @@ function Footer() {
           <NavItem>
             <NavLink href=""
             target="_blank">
-              Josue Matailo.
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href=""
-            target="_blank">
               Jonathan Quezada
             </NavLink>
           </NavItem>
@@ -52,7 +46,7 @@ function Footer() {
             // href=""
             // target="_blank"
           >
-            Tercer Ciclo
+            Cuarto Ciclo
           </a>{" "}
         </div>
       </Container>

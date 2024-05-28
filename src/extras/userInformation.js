@@ -25,7 +25,7 @@ function UserProfileCard() {
     className="avatar"
     src={"https://previews.123rf.com/images/rawpixel/rawpixel1612/rawpixel161250692/68006125-mujer-solitaria-tercera-edad-aburrimiento-triste-concepto-expresi%C3%B3n.jpg"}
 />
-   
+
             <h1 className="title">{`${patient.name} ${patient.lastName}` || "Usuario"}</h1>
           <p className="description">Fecha de diagnostico: {patient?.dateDiagnosis || "fecha diagnóstico"}</p>
           <p className="description">Dirección: {patient?.address || "Dirección"}</p>

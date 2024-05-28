@@ -1,62 +1,67 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Button, Container, Row, Col } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Asegúrate de importar el archivo CSS
+import { useNavigate } from 'react-router-dom';
 
-const SignIn = ({ setIsLoggedIn }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const IniciarSesion = ({ setIsLoggedIn }) => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // Aquí puedes agregar la lógica de autenticación real
-    // Por ahora, simplemente establece isLoggedIn como true
-    setIsLoggedIn(true);
-  };
+    const navigate = useNavigate();
 
-  return (
+    const handleLogin = () => {
+        navigate('/admin');
+    };
+
+    const handleCreateAccount = () => {
+        navigate('/userregister');
+    };
+
+return (
     <Container className="login-container">
-      <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+    <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
         <Col md="6" lg="5">
-          <Card className="shadow-sm">
+        <Card className="shadow-sm">
             <CardHeader className="text-center text-white">
-              <h5 className="title">Iniciar Sesión</h5>
+            <h5 className="title">Iniciar Sesión</h5>
             </CardHeader>
             <CardBody>
-              <Form>
+            <Form>
                 <FormGroup>
-                  <Label for="username">Usuario</Label>
-                  <Input
+                <Label for="username">Usuario</Label>
+                <Input
                     type="text"
                     id="username"
                     placeholder="Ingresa tu usuario"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                  />
+                />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="password">Contraseña</Label>
-                  <Input
+                    <Label for="password">Contraseña</Label>
+                    <Input
                     type="password"
                     id="password"
                     placeholder="Ingresa tu contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                  />
+                    />
                 </FormGroup>
                 <div className="d-flex justify-content-between">
-                  <Button color="primary" onClick={handleLogin}>
+                    <Button color="primary" onClick={handleLogin}>
                     Iniciar Sesión
-                  </Button>
-                  <Button color="secondary" onClick={handleLogin}>
+                    </Button>
+                    <Button color="secondary" onClick={handleCreateAccount}>
                     Crear cuenta
-                  </Button>
+                    </Button>
                 </div>
-              </Form>
+                </Form>
             </CardBody>
-          </Card>
+            </Card>
         </Col>
-      </Row>
+        </Row>
     </Container>
-  );
+    );
 };
 
-export default SignIn;
+export default IniciarSesion;
