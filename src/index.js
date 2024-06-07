@@ -7,6 +7,7 @@ import RTLLayout from "layouts/RTL/RTL.js";
 import RegistroPaciente from "layouts/RegistroPaciente/RegistroPaciente";
 import RegistroUsuario from "layouts/RegistroUsuario/RegistroUsuario";
 import IniciarSesion from "layouts/IniciarSesion/IniciarSesion";
+import User from "layouts/User/User";
 
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -27,6 +28,7 @@ root.render(
           <Route path="/rtl/*" element={<RTLLayout />} />
           <Route path="/login/*" element={<IniciarSesion />} />
           <Route path="/admin/*" element={<AdminLayout />} />
+          <Route path="/userinformations/*" element={<User />} />
           <Route
             path="*"
             element={<Navigate to="/login" replace />}

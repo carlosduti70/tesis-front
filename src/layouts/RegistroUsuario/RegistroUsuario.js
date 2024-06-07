@@ -112,6 +112,13 @@ function RegistroCaragivers() {
                                     Guardar
                                 </Button>
                             </Col>
+                            <Col md="12" className="d-flex justify-content-between">
+                                <Button color="primary" onClick={handleGuardarCuidadores}>
+                                    Agregar Cuidador
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
                         </Row>
                     </Form>
                 </CardBody>

@@ -108,7 +108,7 @@ function Admin(props) {
               </Routes>
               {
                 // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
+                // location.pathname === "/admin/maps" ? null : <Footer fluid />
               }
             </div>
           </div>

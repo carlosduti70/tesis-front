@@ -23,14 +23,14 @@ function UserProfileCard() {
           <img
     alt="..."
     className="avatar"
-    src={"https://previews.123rf.com/images/rawpixel/rawpixel1612/rawpixel161250692/68006125-mujer-solitaria-tercera-edad-aburrimiento-triste-concepto-expresi%C3%B3n.jpg"}
+    src={"https://sge.org/wp-content/uploads/2016/01/008.jpg"}
 />
 
             <h1 className="title">{`${patient.name} ${patient.lastName}` || "Usuario"}</h1>
           <p className="description">Fecha de diagnostico: {patient?.dateDiagnosis || "fecha diagnóstico"}</p>
           <p className="description">Dirección: {patient?.address || "Dirección"}</p>
           <p className="description">Edad: {calcularEdad(patient?.age) + " Años"}</p>
-          <p className="description">Etapa: {patient?.stage || "inicial por defecto"}</p>
+          <p className="description">Etapa: {patient?.stage || "inicial"}</p>
 
         </div>
         {/* <div className="card-description">{patient?.content?.dateDiagnosis}</div> */}

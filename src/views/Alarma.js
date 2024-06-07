@@ -41,7 +41,7 @@ function Alarmas () {
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
-    // const [repeat, setRepeat] = useState("");
+    const [repeat, setRepeat] = useState("true");
 
     const handleGuardarAlarma = async () => {
 
@@ -142,10 +142,9 @@ function Alarmas () {
                                                 <label>Estado</label>
                                                 <Input
                                                     id='repite'
-                                                    placeholder="repite"
-                                                    type="text"
-                                                    value={repeat}
-                                                    onChange={(e) => setRepeat(e.target.value)}
+                                                    type="checkbox"
+                                                    checked={repeat}
+                                                    onChange={(e) => setRepeat(e.target.checked)}
                                                 />
                                             </FormGroup>
                                         </Col> */}

@@ -16,7 +16,7 @@ import {
   Col,
 } from "reactstrap";
 
-function UserProfile() {
+function User() {
   return (
     <>
       <div className="content">
@@ -191,4 +191,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default User;

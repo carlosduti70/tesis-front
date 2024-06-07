@@ -55,6 +55,15 @@ function Recordatorios() {
         }
     };
 
+//         // Recordatorios pasados
+//     const currentDateTime = new Date();
+
+//     const pastReminders = reminders.filter(reminder => {
+//     const reminderDateTime = new Date(reminder.dateTime); // Asegúrate de que `reminder.dateTime` sea un string de fecha válido
+//     return reminderDateTime < currentDateTime;
+//   }); // Asegúrate de que `reminder.dateTime` sea un string de fecha válido
+//     return reminderDateTime < currentDateTime;
+
     return (
         <div className="content">
             <h1>Recordatorios</h1>
@@ -167,6 +176,7 @@ function Recordatorios() {
             <div className="table-full-width table-responsive">
                 <Table>
                     <tbody>
+                        <h4>Recordatorios Activos</h4>
                         {reminders && reminders.map((recordatorio) => (
                             <tr key={recordatorio.id}>
                                 <td>
@@ -181,6 +191,19 @@ function Recordatorios() {
                             </tr>
                         ))}
                     </tbody>
+                    {/* <tbody>
+                        <h4>Recordatorios Pasados</h4>
+                        {reminders && reminders.map((recordatorio) => (
+                            <tr key={recordatorio.id}>
+                                <td>
+                                    <p className="title">{recordatorio.title}</p>
+                                    <p className="text-muted">{recordatorio.description}</p>
+                                    <p className="text-muted">{recordatorio.date}</p>
+                                    <p className="text-muted">{`${recordatorio.startTime} -- ${recordatorio.endTime}`}</p>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody> */}
                 </Table>
             </div>
         </div>

@@ -1,23 +1,9 @@
-/*!
 
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, { useState } from 'react';
 // nodejs library that concatenates classes
 import classNames from "classnames";
+import useSWR from "swr";
+import { fetchAlzheimer, AlzheimerCaragivers } from "service/alzheimer";
 
 // reactstrap components
 import {
@@ -37,6 +23,10 @@ import {
   Modal,
   NavbarToggler,
   ModalHeader,
+  Card,
+  CardBody,
+  CardText,
+  
 } from "reactstrap";
 
 function AdminNavbar(props) {
@@ -71,6 +61,12 @@ function AdminNavbar(props) {
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
+
+  // informacion del usuario
+  const { data: caragivers, error: caragiversError } = useSWR(AlzheimerCaragivers, fetchAlzheimer, {
+    suspense: false,
+  });
+
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -121,54 +117,45 @@ function AdminNavbar(props) {
                       Mike John responded to your email
                     </DropdownItem>
                   </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      You have 5 more tasks
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Your friend Michael is in town
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another notification
-                    </DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">
-                      Another one
-                    </DropdownItem>
-                  </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              {/* ------------- */}
+
+
+
+
               <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  nav
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
-                  </div>
-                  <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
-                  </NavLink>
-                  {/* <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
-                  </NavLink> */}
-                  <DropdownItem divider tag="li" />
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
-                  </NavLink>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+  <DropdownToggle caret color="default" nav onClick={(e) => e.preventDefault()}>
+    <div className="photo">
+      <img alt="..." src={require("assets/img/anime3.png")} />
+    </div>
+    <b className="caret d-none d-lg-block d-xl-block" />
+    <p className="d-lg-none">Log out</p>
+  </DropdownToggle>
+  <DropdownMenu md="2" className="dropdown-navbar" right tag="ul">
+    {caragivers && caragivers.map((caragiver, index) => (
+      <React.Fragment key={index}>
+        <DropdownItem text>{`${caragiver.name} ${caragiver.lastName}`}</DropdownItem>
+        <DropdownItem header>USUARIO</DropdownItem>
+        <DropdownItem text>{caragiver.gmail}</DropdownItem>
+        <DropdownItem header>CORREO ELECTRÓNICO</DropdownItem>
+        <DropdownItem text>{caragiver.relationship}</DropdownItem>
+        <DropdownItem header>PARENTEZCO</DropdownItem>
+        {/* <DropdownItem disabled>{`Action (disabled) ${index}`}</DropdownItem> */}
+        <DropdownItem divider />
+      </React.Fragment>
+    ))}
+    <NavLink tag="li">
+      <DropdownItem className="nav-item">Cerrar sesión</DropdownItem>
+    </NavLink>
+  </DropdownMenu>
+</UncontrolledDropdown>
+
+              {/* ------------ */}
+
+
+
+
               <li className="separator d-lg-none" />
             </Nav>
           </Collapse>

@@ -34,8 +34,8 @@ function FixedPlugin(props) {
           <i className="fa fa-cog fa-2x" />
         </DropdownToggle>
         <ul className="dropdown-menu show">
-          <li className="header-title">SIDEBAR BACKGROUND</li>
-          <li className="adjustments-line">
+          <li className="header-title">TEMA</li>
+          {/* <li className="adjustments-line">
             <div className="badge-colors text-center">
               <Badge
                 color="primary"
@@ -65,12 +65,12 @@ function FixedPlugin(props) {
                 }}
               />{" "}
             </div>
-          </li>
+          </li> */}
           <li className="adjustments-line text-center color-change">
             <ThemeContext.Consumer>
               {({ changeTheme }) => (
                 <>
-                  <span className="color-label">LIGHT MODE</span>{" "}
+                  <span className="color-label">CLARO</span>{" "}
                   <Badge
                     className="light-badge mr-2"
                     onClick={() => changeTheme(themes.light)}
@@ -79,7 +79,7 @@ function FixedPlugin(props) {
                     className="dark-badge ml-2"
                     onClick={() => changeTheme(themes.dark)}
                   />{" "}
-                  <span className="color-label">DARK MODE</span>{" "}
+                  <span className="color-label">OSCURO</span>{" "}
                 </>
               )}
             </ThemeContext.Consumer>
