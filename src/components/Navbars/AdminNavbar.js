@@ -7,7 +7,6 @@ import { fetchAlzheimer, AlzheimerCaragivers } from "service/alzheimer";
 
 // reactstrap components
 import {
-  Button,
   Collapse,
   DropdownToggle,
   DropdownMenu,
@@ -23,10 +22,6 @@ import {
   Modal,
   NavbarToggler,
   ModalHeader,
-  Card,
-  CardBody,
-  CardText,
-  
 } from "reactstrap";
 
 function AdminNavbar(props) {
@@ -109,7 +104,7 @@ function AdminNavbar(props) {
                 >
                   <div className="notification d-none d-lg-block d-xl-block" />
                   <i className="tim-icons icon-bell-55" />
-                  <p className="d-lg-none">Notifications</p>
+                  <p className="d-lg-none">Notificaciones</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
@@ -125,31 +120,37 @@ function AdminNavbar(props) {
 
 
               <UncontrolledDropdown nav>
-  <DropdownToggle caret color="default" nav onClick={(e) => e.preventDefault()}>
-    <div className="photo">
-      <img alt="..." src={require("assets/img/anime3.png")} />
-    </div>
-    <b className="caret d-none d-lg-block d-xl-block" />
-    <p className="d-lg-none">Log out</p>
-  </DropdownToggle>
-  <DropdownMenu md="2" className="dropdown-navbar" right tag="ul">
-    {caragivers && caragivers.map((caragiver, index) => (
-      <React.Fragment key={index}>
-        <DropdownItem text>{`${caragiver.name} ${caragiver.lastName}`}</DropdownItem>
-        <DropdownItem header>USUARIO</DropdownItem>
-        <DropdownItem text>{caragiver.gmail}</DropdownItem>
-        <DropdownItem header>CORREO ELECTRÓNICO</DropdownItem>
-        <DropdownItem text>{caragiver.relationship}</DropdownItem>
-        <DropdownItem header>PARENTEZCO</DropdownItem>
-        {/* <DropdownItem disabled>{`Action (disabled) ${index}`}</DropdownItem> */}
-        <DropdownItem divider />
-      </React.Fragment>
-    ))}
-    <NavLink tag="li">
-      <DropdownItem className="nav-item">Cerrar sesión</DropdownItem>
-    </NavLink>
-  </DropdownMenu>
-</UncontrolledDropdown>
+                <DropdownToggle caret color="default" nav onClick={(e) => e.preventDefault()}>
+                  <div className="photo">
+                    <img alt="..." src={require("assets/img/anime3.png")} />
+                  </div>
+                  <b className="caret d-none d-lg-block d-xl-block" />
+                  <p className="d-lg-none">Usuario</p>
+                </DropdownToggle>
+                <DropdownMenu md="2" className="dropdown-navbar" right tag="ul">
+                  {caragivers && caragivers.map((caragiver, index) => (
+                    <React.Fragment key={index}>
+                      <DropdownItem text>
+
+                      <div className="photo">
+                        <img alt="..." src={require("assets/img/anime3.png")} />
+                      </div>
+                      </DropdownItem>
+                      <DropdownItem text>{`${caragiver.name} ${caragiver.lastName}`}</DropdownItem>
+                      <DropdownItem header>USUARIO</DropdownItem>
+                      <DropdownItem text>{caragiver.gmail}</DropdownItem>
+                      <DropdownItem header>CORREO ELECTRÓNICO</DropdownItem>
+                      <DropdownItem text>{caragiver.relationship}</DropdownItem>
+                      <DropdownItem header>PARENTEZCO</DropdownItem>
+                      {/* <DropdownItem disabled>{`Action (disabled) ${index}`}</DropdownItem> */}
+                      <DropdownItem divider />
+                    </React.Fragment>
+                  ))}
+                  <NavLink tag="li">
+                    <DropdownItem className="nav-item">Cerrar sesión</DropdownItem>
+                  </NavLink>
+                </DropdownMenu>
+              </UncontrolledDropdown>
 
               {/* ------------ */}
 

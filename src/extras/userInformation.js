@@ -23,7 +23,7 @@ function UserProfileCard() {
           <img
     alt="..."
     className="avatar"
-    src={"https://sge.org/wp-content/uploads/2016/01/008.jpg"}
+    src={"https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"}
 />
 
             <h1 className="title">{`${patient.name} ${patient.lastName}` || "Usuario"}</h1>

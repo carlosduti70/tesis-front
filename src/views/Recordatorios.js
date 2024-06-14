@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col, Table, CardFooter } from "reactstrap";
 import useSWR, { mutate } from 'swr';
 import { createAlzheimer, deleteAlzheimer, AlzheimerReminders, fetchAlzheimer } from 'service/alzheimer';
+import Notifications, {notify} from './notificaciones';
 
 function Recordatorios() {
     const [mostrarNuevoRecordatorio, setMostrarNuevoRecordatorio] = useState(false);
@@ -16,10 +17,12 @@ function Recordatorios() {
         setMostrarNuevoRecordatorio(!mostrarNuevoRecordatorio);
     };
 
+
+
     const handleGuardarRecordatorio = async () => {
 
         if (!title || !descripcion || !fecha || !horaInicio || !horaFin || !estado) {
-            alert("Todos los campos son obligatorios!!");
+            notify("Todos los campos son obligatorios!!", "warning", "tc");
             return;
         }
         const nuevoRecordatorio = {
@@ -31,14 +34,19 @@ function Recordatorios() {
             status: estado,
         };
 
+        setTimeout(() => {
+            setMostrarNuevoRecordatorio(!mostrarNuevoRecordatorio);
+        }, 2000);
+
         createAlzheimer(AlzheimerReminders, { arg: nuevoRecordatorio })
             .then(response => {
                 console.log('Recordatorio guardado:', response);
-                alert("Guardado!!");
+                notify("Guardado", "success", "tc");
+                mutate(AlzheimerReminders);
             })
             .catch(error => {
                 console.error('Error al guardar el recordatorio:', error);
-                alert("Error al guardar");
+                notify("Error al guardar", "danger", "tc");
             });
     };
 
@@ -47,11 +55,10 @@ function Recordatorios() {
     const handleBorrarRecordatorio = async (id) => {
         try {
             await deleteAlzheimer(`${AlzheimerReminders}/delete/${id}`, {});
-            alert("Se ha borrado con éxito!!");
             mutate(AlzheimerReminders);
         } catch (error) {
+            alert("Error al intentar borrar la recordatorio");
             console.error("Error al borrar el recordatorio:", error);
-            alert("Error al intentar borrar recordatorio");
         }
     };
 
@@ -161,6 +168,7 @@ function Recordatorios() {
                                 </Form>
                             </CardBody>
                             <CardFooter>
+                            <Notifications />
                                 <Button className="btn-fill" color="primary" onClick={handleGuardarRecordatorio}>
                                     Guardar
                                 </Button>
@@ -206,6 +214,7 @@ function Recordatorios() {
                     </tbody> */}
                 </Table>
             </div>
+            
         </div>
     );
 }

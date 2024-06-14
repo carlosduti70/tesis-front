@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardHeader, CardBody, Form, FormGroup, Label, Input, Button, Container, Row, Col } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Asegúrate de importar el archivo CSS
 import { useNavigate } from 'react-router-dom';
+import Notifications, {notify} from "views/notificaciones";
 
 const IniciarSesion = ({ setIsLoggedIn }) => {
     const [username, setUsername] = useState("");
@@ -9,12 +10,18 @@ const IniciarSesion = ({ setIsLoggedIn }) => {
 
     const navigate = useNavigate();
 
+
     const handleLogin = () => {
-        navigate('/admin');
+        setTimeout(() => {
+            navigate('/admin');
+        }, 1000);
     };
+    
 
     const handleCreateAccount = () => {
-        navigate('/userregister');
+        setTimeout(() => {
+            navigate('/userregister');
+        }, 800);
     };
 
 return (
@@ -60,6 +67,7 @@ return (
             </Card>
         </Col>
         </Row>
+        <Notifications />
     </Container>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col } from 'reactstrap';
 import { createAlzheimer, AlzheimerCaragivers } from 'service/alzheimer';
 import { useNavigate } from 'react-router-dom';
+import Notifications, {notify} from "views/notificaciones";
 
 function RegistroCaragivers() {
     const [name, setName] = useState("");
@@ -13,7 +14,7 @@ function RegistroCaragivers() {
 
     const handleGuardarCuidadores = () => {
         if (!name || !lastname || !username || !email || !parentezco) {
-            alert("Todos los campos son obligatorios!!");
+            notify("Todos los campos son obligatorios!!", "warning", "tc");
             return;
         }
         const cuidador = {
@@ -107,6 +108,7 @@ function RegistroCaragivers() {
                             </Col>
                         </Row>
                         <Row>
+                        <Notifications />
                             <Col md="12" className="d-flex justify-content-between">
                                 <Button color="primary" onClick={handleGuardarCuidadores}>
                                     Guardar

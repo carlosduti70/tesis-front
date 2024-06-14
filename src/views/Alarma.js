@@ -15,6 +15,8 @@ import {
 } from "reactstrap";
 import useSWR, { mutate } from 'swr';
 import { createAlzheimer, deleteAlzheimer, AlzheimerAlarm, fetchAlzheimer } from 'service/alzheimer';
+import Notifications, {notify} from './notificaciones';
+
 
 function Alarmas () {
 
@@ -46,7 +48,7 @@ function Alarmas () {
     const handleGuardarAlarma = async () => {
 
         if (!title || !date || !time) {
-            alert("Todos los campos son obligatorios!!");
+            notify("Todos los campos son obligatorios!!", "warning", "tc");
             return;
         }
 
@@ -57,14 +59,19 @@ function Alarmas () {
                 // repeat: repeat,
             };
 
+            setTimeout(() => {
+                setMostrarNuevoAlarma(!mostrarNuevoAlarma);
+            }, 2000);
+
             createAlzheimer(AlzheimerAlarm, { arg: nuevaAlarma })
       .then(response => {
         console.log('Cuidador guardado:', response);
-        alert("Guardado!!");
+        notify("Guardado", "success", "tc");
+        mutate(AlzheimerAlarm)
       })
       .catch(error => {
         console.error('Error al guardar el cuidador:', error);
-        alert("Error al guardar");
+        notify("Error al guardar", "danger", "tc");
       });
     };
     
@@ -74,7 +81,7 @@ function Alarmas () {
         try {
             // Realizar la solicitud DELETE para borrar la alarma
             await deleteAlzheimer(`${AlzheimerAlarm}/delete/${id}`, {});
-            alert("Se ha borrado con éxito!!");
+            mutate(AlzheimerAlarm)
         
             // Actualizar la lista de alarmas después de borrar la alarma
             mutate(AlzheimerAlarm);
@@ -152,6 +159,7 @@ function Alarmas () {
                                 </Form>
                             </CardBody>
                             <CardFooter>
+                            <Notifications />
                                 <Button className="btn-fill" color="primary" onClick={handleGuardarAlarma}>
                                     Guardar
                                 </Button>
