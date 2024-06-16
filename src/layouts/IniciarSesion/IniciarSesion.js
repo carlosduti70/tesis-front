@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Notifications, {notify} from "views/notificaciones";
 
 const IniciarSesion = ({ setIsLoggedIn }) => {
-    const [username, setUsername] = useState("");
+
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
@@ -16,7 +17,6 @@ const IniciarSesion = ({ setIsLoggedIn }) => {
             navigate('/admin');
         }, 1000);
     };
-    
 
     const handleCreateAccount = () => {
         setTimeout(() => {
@@ -35,13 +35,13 @@ return (
             <CardBody>
             <Form>
                 <FormGroup>
-                <Label for="username">Usuario</Label>
+                <Label for="email">Usuario</Label>
                 <Input
-                    type="text"
-                    id="username"
-                    placeholder="Ingresa tu usuario"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="email"
+                    id="email"
+                    placeholder="ejemplo@gmail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 </FormGroup>
                 <FormGroup>
@@ -62,7 +62,7 @@ return (
                     Crear cuenta
                     </Button>
                 </div>
-                </Form>
+            </Form>
             </CardBody>
             </Card>
         </Col>

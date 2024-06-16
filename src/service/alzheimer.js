@@ -7,6 +7,10 @@ export const AlzheimerConfigurations = 'http://localhost:8081/configurations'
 export const AlzheimerInteractions = 'http://localhost:8081/interactions'
 export const AlzheimerPatient = 'http://localhost:8081/patient'
 export const AlzheimerReminders = 'http://localhost:8081/reminders'
+export const AlzheimerCardName = 'http://localhost:8081/cardName'
+
+export const AlzheimerRemindersPast = 'http://localhost:8081/reminders/card-reminders'
+
 
 export const fetchAlzheimer = 
 async (url) => {

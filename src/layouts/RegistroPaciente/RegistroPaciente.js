@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col } from 'reactstrap';
+import { Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col, Container } from 'reactstrap';
 import { createAlzheimer, AlzheimerPatient } from 'service/alzheimer';
 
 function RegistroPaciente() {
@@ -36,15 +36,15 @@ function RegistroPaciente() {
     };
 
     return (
-        <div className="content d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-            <Card style={{ width: '50%' }}>
-                <CardHeader>
-                    <h5 className="h4">Registro de paciente</h5>
-                </CardHeader>
-                <CardBody>
-                    <Form>
-                        <Row>
-                            <Col md="12">
+        <Container className="login-container">
+<Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+    <Col md="6" lg="5">
+    <Card className="shadow-sm">
+        <CardHeader className="text-center text-white">
+        <h5 className="title">Crear paciente</h5>
+        </CardHeader>
+        <CardBody>
+        <Form>
                                 <FormGroup>
                                     <label>Nombre</label>
                                     <Input
@@ -54,8 +54,6 @@ function RegistroPaciente() {
                                         onChange={(e) => setName(e.target.value)}
                                     />
                                 </FormGroup>
-                            </Col>
-                            <Col md="12">
                                 <FormGroup>
                                     <label>Apellido</label>
                                     <Input
@@ -65,8 +63,6 @@ function RegistroPaciente() {
                                         onChange={(e) => setLastname(e.target.value)}
                                     />
                                 </FormGroup>
-                            </Col>
-                            <Col md="12">
                                 <FormGroup>
                                     <label>Fecha de nacimiento</label>
                                     <Input
@@ -76,8 +72,6 @@ function RegistroPaciente() {
                                         onChange={(e) => setAge(e.target.value)}
                                     />
                                 </FormGroup>
-                            </Col>
-                            <Col md="12">
                                 <FormGroup>
                                     <label>Fecha de primer diagnóstico</label>
                                     <Input
@@ -87,8 +81,6 @@ function RegistroPaciente() {
                                         onChange={(e) => setDateDiagnosis(e.target.value)}
                                     />
                                 </FormGroup>
-                            </Col>
-                            <Col md="12">
                                 <FormGroup>
                                     <label>Dirección</label>
                                     <Input
@@ -98,8 +90,6 @@ function RegistroPaciente() {
                                         onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </FormGroup>
-                            </Col>
-                            <Col md="12">
                                 <FormGroup>
                                     <label>Etapa de Alzheimer</label>
                                     <Input
@@ -109,20 +99,21 @@ function RegistroPaciente() {
                                         onChange={(e) => setStage(e.target.value)}
                                     />
                                 </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md="12" className="d-flex justify-content-between">
+                            <div className="d-flex justify-content-between">
+
                                 <Button color="primary" onClick={handleGuardarPaciente}>
                                     Guardar
                                 </Button>
-                            </Col>
-                        </Row>
+                            </div>
                     </Form>
-                </CardBody>
+        </CardBody>
             </Card>
-        </div>
+        </Col>
+        </Row>
+        {/* <Notifications /> */}
+    </Container>
     );
 }
 
 export default RegistroPaciente;
+
