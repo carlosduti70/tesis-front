@@ -112,7 +112,7 @@ function RegistroCaragivers() {
                                         id="rol"
                                         value={rol}
                                         onChange={(e) => setRol(e.target.value)}>
-                                        <option value="Admin">Administrador</option>
+                                        <option value="Admin">Familiar</option>
                                         <option value="Cuidador">Cuidador</option>
                                     </Input>
                                 </FormGroup>

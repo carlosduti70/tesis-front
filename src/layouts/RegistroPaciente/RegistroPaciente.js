@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col, Container } from 'reactstrap';
 import { createAlzheimer, AlzheimerPatient } from 'service/alzheimer';
+import Notifications, {notify} from "views/notificaciones";
 
 function RegistroPaciente() {
     const [stage, setStage] = useState("");
@@ -12,7 +13,7 @@ function RegistroPaciente() {
 
     const handleGuardarPaciente = () => {
         if (!name || !lastname || !age || !address || !dateDiagnosis || !stage) {
-            alert("Todos los campos son obligatorios!!");
+            notify("Todos los campos son obligatorios!!", "warning", "tc");
             return;
         }
         const paciente = {
@@ -93,12 +94,13 @@ function RegistroPaciente() {
                                 <FormGroup>
                                     <label>Etapa de Alzheimer</label>
                                     <Input
-                                        placeholder="Etapa"
+                                        placeholder="Inicial"
                                         type="text"
                                         value={stage}
                                         onChange={(e) => setStage(e.target.value)}
                                     />
                                 </FormGroup>
+                                <Notifications />
                             <div className="d-flex justify-content-between">
 
                                 <Button color="primary" onClick={handleGuardarPaciente}>
