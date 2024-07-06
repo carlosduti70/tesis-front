@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col, Container } from 'reactstrap';
 import { createAlzheimer, AlzheimerPatient } from 'service/alzheimer';
 import Notifications, {notify} from "views/notificaciones";
+import { useNavigate } from 'react-router-dom';
 
 function RegistroPaciente() {
     const [stage, setStage] = useState("");
@@ -10,6 +11,7 @@ function RegistroPaciente() {
     const [age, setAge] = useState("");
     const [address, setAddress] = useState("");
     const [dateDiagnosis, setDateDiagnosis] = useState("");
+    const navigate = useNavigate();
 
     const handleGuardarPaciente = () => {
         if (!name || !lastname || !age || !address || !dateDiagnosis || !stage) {
@@ -24,17 +26,27 @@ function RegistroPaciente() {
             dateDiagnosis: dateDiagnosis,
             stage: stage
         };
+        
 
         createAlzheimer(AlzheimerPatient, { arg: paciente })
             .then(response => {
                 console.log('Paciente guardado:', response);
-                alert("Guardado!!");
+                notify("Creado!!", "success", "tc");;
             })
             .catch(error => {
                 console.error('Error al guardar el paciente:', error);
-                alert("Error al guardar");
+                notify("Error al guardar!!", "danger", "tc");
             });
-    };
+            setTimeout(() => {
+                navigate('/userregister');
+            }, 800);
+
+        };
+        const handleCreateAccount = () => {
+            setTimeout(() => {
+                navigate('/login');
+            }, 500);
+        };
 
     return (
         <Container className="login-container">
@@ -94,25 +106,30 @@ function RegistroPaciente() {
                                 <FormGroup>
                                     <label>Etapa de Alzheimer</label>
                                     <Input
-                                        placeholder="Inicial"
-                                        type="text"
+                                        type="select"
+                                        name="stage"
+                                        id="stage"
                                         value={stage}
-                                        onChange={(e) => setStage(e.target.value)}
-                                    />
+                                        onChange={(e) => setStage(e.target.value)}>
+                                        <option value="Admin">Inicial</option>
+                                        <option value="user">pollo</option>
+                                    </Input>
                                 </FormGroup>
                                 <Notifications />
                             <div className="d-flex justify-content-between">
-
-                                <Button color="primary" onClick={handleGuardarPaciente}>
-                                    Guardar
+                                <Button color="secondary" onClick={handleCreateAccount}>
+                                    Atrás
                                 </Button>
+                                <Button color="primary" onClick= {handleGuardarPaciente}>
+                                    Siguiente
+                                </Button>
+                                
                             </div>
                     </Form>
         </CardBody>
             </Card>
         </Col>
         </Row>
-        {/* <Notifications /> */}
     </Container>
     );
 }

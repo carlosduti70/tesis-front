@@ -8,6 +8,7 @@ import RegistroPaciente from "layouts/RegistroPaciente/RegistroPaciente";
 import RegistroUsuario from "layouts/RegistroUsuario/RegistroUsuario";
 import IniciarSesion from "layouts/IniciarSesion/IniciarSesion";
 import User from "layouts/User/User";
+import PrivateRoute from "service/security";
 
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -27,14 +28,15 @@ root.render(
           <Route path="/userregister/*" element={<RegistroUsuario />} />
           <Route path="/rtl/*" element={<RTLLayout />} />
           <Route path="/login/*" element={<IniciarSesion />} />
-          <Route path="/admin/*" element={<AdminLayout />} />
           <Route path="/userinformations/*" element={<User />} />
-          <Route
-            path="*"
-            element={<Navigate to="/login" replace />}
-          />
+          <Route path="/admin/*" element={<PrivateRoute />}>
+            <Route path="*" element={<AdminLayout />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </BackgroundColorWrapper>
   </ThemeContextWrapper>
 );
+
+// http://localhost:3000/admin/alarma

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { unstable_HistoryRouter  } from 'react-router-dom';
 import classNames from 'classnames';
 import useSWR from 'swr';
 import { fetchAlzheimer, AlzheimerCaragivers } from 'service/alzheimer';
@@ -18,6 +19,7 @@ import {
   ModalHeader,
   Input,
 } from 'reactstrap';
+import { handleLogout } from 'service/security';
 
 function AdminNavbar(props) {
   const [collapseOpen, setCollapseOpen] = useState(false);
@@ -27,6 +29,8 @@ function AdminNavbar(props) {
     { id: 1, message: 'Mike John responded to your email', visible: true },
     // Agrega más notificaciones aquí si es necesario
   ]);
+
+  // const history = unstable_HistoryRouter(); // Usar useHistory para redirigir al usuario
 
   useEffect(() => {
     window.addEventListener('resize', updateColor);
@@ -51,6 +55,14 @@ function AdminNavbar(props) {
     }
     setCollapseOpen(!collapseOpen);
   };
+
+
+    // const handleLogout = () => {
+    //     // Eliminar el token JWT del almacenamiento local
+    //     localStorage.removeItem('token');
+    //     // Redirigir al usuario a la página de inicio de sesión
+    //     history.push('/login');
+    // };
 
   const toggleModalSearch = () => {
     setModalSearch(!modalSearch);
@@ -154,7 +166,7 @@ function AdminNavbar(props) {
                     </React.Fragment>
                   ))}
                   <NavLink tag='li'>
-                    <DropdownItem className='nav-item'>Cerrar sesión</DropdownItem>
+                    <DropdownItem className='nav-item' onClick={handleLogout} >Cerrar sesión</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

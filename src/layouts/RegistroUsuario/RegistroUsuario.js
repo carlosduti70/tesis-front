@@ -14,12 +14,6 @@ function RegistroCaragivers() {
     const [rol, setRol] = useState("");
     const navigate = useNavigate();
 
-    const handleCreatePatient = () => {
-        setTimeout(() => {
-            navigate('/patientrecord');
-        }, 1000);
-    }
-
 
     const handleGuardarCuidadores = () => {
         if (!name || !lastname || !username || !email || !rol || !password) {
@@ -34,7 +28,6 @@ function RegistroCaragivers() {
             lastName: lastname,
             rol: rol
         };
-
 
 
         createAlzheimer(AlzheimerCaragivers, { arg: cuidador })
@@ -112,18 +105,14 @@ function RegistroCaragivers() {
                                         id="rol"
                                         value={rol}
                                         onChange={(e) => setRol(e.target.value)}>
-                                        <option value="Admin">Familiar</option>
-                                        <option value="Cuidador">Cuidador</option>
+                                        <option value="Admin">Administrador</option>
                                     </Input>
                                 </FormGroup>
                         <Notifications />
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-end">
 
-                                <Button color="secondary" onClick={handleGuardarCuidadores}>
-                                    Comprobar
-                                </Button>
-                                <Button color="primary" onClick={handleCreatePatient}>
-                                    Siguiente
+                                <Button color="primary" onClick={handleGuardarCuidadores}>
+                                    Guardar
                                 </Button>
                         </div>
                     </Form>
