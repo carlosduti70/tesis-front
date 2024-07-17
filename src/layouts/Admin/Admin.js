@@ -11,7 +11,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/react-logo.png";
+import logo from "assets/img/logo.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
@@ -88,7 +88,7 @@ function Admin(props) {
             <Sidebar
               routes={routes}
               logo={{
-                text: "Piensa",
+                text: "REMINDERTEC",
                 imgSrc: logo,
               }}
               toggleSidebar={toggleSidebar}

@@ -1,18 +1,21 @@
-import { Card, CardBody, CardText, CardFooter, Button } from "reactstrap";
-import { fetchAlzheimer, AlzheimerPatient } from "service/alzheimer";
-import useSWR from "swr";
+import React from "react";
+import { Card, CardBody, CardText } from "reactstrap";
 import calcularEdad from "./calcularEdad";
+import { useData } from 'contexts/DataContext';
 
 function UserProfileCard() {
+  const { data } = useData();
 
-  const { data: patient, error: patientError } = useSWR(AlzheimerPatient, fetchAlzheimer, { 
-    suspense: false,
-  }); 
-
+  // Verifica si data.dto no es null antes de acceder a sus propiedades
+  const patientName = data.dto?.patientName || "Usuario";
+  const patientLastName = data.dto?.patientLastName || "";
+  const dateDiagnosis = data.dto?.dateDiagnosis || "Fecha de diagnóstico";
+  const address = data.dto?.address || "Dirección";
+  const age = data.dto ? calcularEdad(data.dto.age) + " años" : "Edad";
+  const stage = data.dto?.stage || "Inicial";
 
   return (
     <Card className="card-user">
-        {patient && patient.content.map((patient) => (
       <CardBody>
         <CardText />
         <div className="author">
@@ -21,35 +24,18 @@ function UserProfileCard() {
           <div className="block block-three" />
           <div className="block block-four" />  
           <img
-    alt="..."
-    className="avatar"
-    src={"https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"}
-/>
+            alt="Avatar"
+            className="avatar"
+            src={"https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"}
+          />
 
-            <h1 className="title">{`${patient.name} ${patient.lastName}` || "Usuario"}</h1>
-          <p className="description">Fecha de diagnostico: {patient?.dateDiagnosis || "fecha diagnóstico"}</p>
-          <p className="description">Dirección: {patient?.address || "Dirección"}</p>
-          <p className="description">Edad: {calcularEdad(patient?.age) + " Años"}</p>
-          <p className="description">Etapa: {patient?.stage || "inicial"}</p>
-
+          <h1 className="title">{`${patientName} ${patientLastName}`}</h1>
+          <p className="description">Fecha de diagnóstico: {dateDiagnosis}</p>
+          <p className="description">Dirección: {address}</p>
+          <p className="description">Edad: {age}</p>
+          <p className="description">Etapa: {stage}</p>
         </div>
-        {/* <div className="card-description">{patient?.content?.dateDiagnosis}</div> */}
       </CardBody>
-          ))}
-      {/* <CardFooter>
-        <h4>Contacto Familiar</h4>
-        <div className="button-container">
-          <Button className="btn-icon btn-round" color="facebook">
-            <i className="fab fa-facebook" />
-          </Button>
-          <Button className="btn-icon btn-round" color="twitter">
-            <i className="fab fa-twitter" />
-          </Button>
-          <Button className="btn-icon btn-round" color="google">
-            <i className="fab fa-google-plus" />
-          </Button>
-        </div>
-      </CardFooter> */}
     </Card>
   );
 }

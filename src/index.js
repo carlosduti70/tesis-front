@@ -14,27 +14,31 @@ import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { DataProvider } from "contexts/DataContext";
 
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+
 root.render(
   <ThemeContextWrapper>
     <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/patientrecord/*" element={<RegistroPaciente />} />
-          <Route path="/userregister/*" element={<RegistroUsuario />} />
-          <Route path="/rtl/*" element={<RTLLayout />} />
-          <Route path="/login/*" element={<IniciarSesion />} />
-          <Route path="/userinformations/*" element={<User />} />
-          <Route path="/admin/*" element={<PrivateRoute />}>
-            <Route path="*" element={<AdminLayout />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </BrowserRouter>
+    <DataProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/patientrecord/*" element={<RegistroPaciente />} />
+            <Route path="/userregister/*" element={<RegistroUsuario />} />
+            <Route path="/rtl/*" element={<RTLLayout />} />
+            <Route path="/login/*" element={<IniciarSesion />} />
+            <Route path="/userinformations/*" element={<User />} />
+            <Route path="/admin/*" element={<PrivateRoute />}>
+              <Route path="*" element={<AdminLayout />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </DataProvider>
     </BackgroundColorWrapper>
   </ThemeContextWrapper>
 );

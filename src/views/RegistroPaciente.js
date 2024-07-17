@@ -13,7 +13,7 @@ function RegistroPaciente() {
     const [dateDiagnosis, setDateDiagnosis] = useState("");
 
     const handleEtapaChange = (event) => {
-      setStage(event.target.value);
+        setStage(event.target.value);
     };
 
     const handleGuardarPaciente = () => {

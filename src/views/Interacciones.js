@@ -9,15 +9,16 @@ import {
     Col,
 } from "reactstrap";
 import useSWR from 'swr';
-import { fetchAlzheimer, AlzheimerCard } from 'service/alzheimer';
-
+import { fetchAlzheimer, AlzheimerInteractions } from 'service/alzheimer';
+import { useData } from 'contexts/DataContext';
 
 function Interactions (){
 
     // llamar datos
-    const { data: card } = useSWR(AlzheimerCard, fetchAlzheimer, {
+    const { data: iteractions } = useSWR(AlzheimerInteractions, fetchAlzheimer, {
         suspense: false,
-    }); 
+    });
+    const { data } = useData(); // Obtener los datos del contexto
 
     return (
         <div className="content">
@@ -33,17 +34,23 @@ function Interactions (){
                 <tr>
                     <th>Fecha</th>
                     <th>Hora</th>
-                    <th>Comportamiento</th>
+                    <th>Recordatorio</th>
                 </tr>
                 </thead>
                 <tbody>
-                {card && card.map((item, index) => (
-                    <tr key={index}>
-                    <td>{item.dateTime}</td>
-                    <td>{item.hour}</td>
-                    <td>{item.pregunta}</td>
-                    </tr>
-                ))}
+                    {iteractions && iteractions.filter(iteraccion => iteraccion.patientId === data.dto?.patientId).map((iteraccion) => (
+                        <tr key={iteraccion.id}>
+                            <td>
+                                <p className="title">{iteraccion.dateTime}</p>
+                            </td>
+                            <td>
+                                <p className="text-muted">{iteraccion.hour}</p>
+                            </td>
+                            <td>
+                                <p className="text-muted">{iteraccion.title}</p>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
             </CardBody>

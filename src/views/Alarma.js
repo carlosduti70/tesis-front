@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
     Button,
     Card,
@@ -12,78 +11,73 @@ import {
     Row,
     Col,
     Table,
+    FormFeedback
 } from "reactstrap";
 import useSWR, { mutate } from 'swr';
 import { createAlzheimer, deleteAlzheimer, AlzheimerAlarm, fetchAlzheimer } from 'service/alzheimer';
-import Notifications, {notify} from './notificaciones';
+import Notifications, { notify } from './notificaciones';
+import { useData } from 'contexts/DataContext';
 
-
-function Alarmas () {
-
+function Alarmas() {
     const [mostrarNuevoAlarma, setMostrarNuevoAlarma] = useState(false);
+    const { data } = useData(); // Obtén los datos del contexto
 
     const toggleMostrarNuevoAlarma = () => {
         setMostrarNuevoAlarma(!mostrarNuevoAlarma);
     };
 
-    const [estado, setEstado] = useState(null);
-    const handleEstadoChange = (event) => {
-        setEstado(event.target.value);
-    };
-
-    const [repite, setRepite] = useState(null);
-    const handleRepiteChange = (event) => {
-        setRepite(event.target.value);
-    };
-
-    const { data: alarm, error: alarmError } = useSWR(AlzheimerAlarm, fetchAlzheimer, {
-        suspense: false,
-    });
-
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
-    const [repeat, setRepeat] = useState("true");
+    const [repeat, setRepeat] = useState(true);
+
+    const [invalid, setInvalid] = useState({
+        title: false,
+        date: false,
+        time: false,
+    });
+
+    const { data: alarm } = useSWR(AlzheimerAlarm, fetchAlzheimer, {
+        suspense: false,
+    });
 
     const handleGuardarAlarma = async () => {
+        const newInvalid = {
+            title: !title,
+            date: !date,
+            time: !time,
+        };
+        setInvalid(newInvalid);
 
         if (!title || !date || !time) {
             notify("Todos los campos son obligatorios!!", "warning", "tc");
             return;
         }
 
-            const nuevaAlarma = {
-                title: title,
-                date: date,
-                time: time,
-                // repeat: repeat,
-            };
+        const nuevaAlarma = {
+            title: title,
+            date: date,
+            time: time,
+            patientId: data.dto?.patientId
+        };
 
-            setTimeout(() => {
-                setMostrarNuevoAlarma(!mostrarNuevoAlarma);
-            }, 2000);
+        setTimeout(() => {
+            setMostrarNuevoAlarma(false);
+        }, 2000);
 
-            createAlzheimer(AlzheimerAlarm, { arg: nuevaAlarma })
-      .then(response => {
-        console.log('Cuidador guardado:', response);
-        notify("Guardado", "success", "tc");
-        mutate(AlzheimerAlarm)
-      })
-      .catch(error => {
-        console.error('Error al guardar el cuidador:', error);
-        notify("Error al guardar", "danger", "tc");
-      });
+        try {
+            await createAlzheimer(AlzheimerAlarm, nuevaAlarma);
+            notify("Guardado", "success", "tc");
+            mutate(AlzheimerAlarm);
+        } catch (error) {
+            console.error('Error al guardar la alarma:', error);
+            notify("Error al guardar", "danger", "tc");
+        }
     };
-    
 
-    // borrar datos
     const handleBorrarAlarma = async (id) => {
         try {
-            // Realizar la solicitud DELETE para borrar la alarma
             await deleteAlzheimer(`${AlzheimerAlarm}/delete/${id}`, {});
-            mutate(AlzheimerAlarm)
-        
-            // Actualizar la lista de alarmas después de borrar la alarma
             mutate(AlzheimerAlarm);
         } catch (error) {
             console.error("Error al borrar la alarma:", error);
@@ -91,12 +85,32 @@ function Alarmas () {
         }
     };
 
+    const handleChangeTitle = (e) => {
+        setTitle(e.target.value);
+        if (e.target.value) {
+            setInvalid((prev) => ({ ...prev, title: false }));
+        }
+    };
+
+    const handleChangeDate = (e) => {
+        setDate(e.target.value);
+        if (e.target.value) {
+            setInvalid((prev) => ({ ...prev, date: false }));
+        }
+    };
+
+    const handleChangeTime = (e) => {
+        setTime(e.target.value);
+        if (e.target.value) {
+            setInvalid((prev) => ({ ...prev, time: false }));
+        }
+    };
+
     return (
         <div className="content">
-            <h1>Alarmas</h1>
-            <Button onClick={toggleMostrarNuevoAlarma}>Nueva alarma</Button>
+            <Button onClick={toggleMostrarNuevoAlarma} style={{ marginBottom: "3vh" }}>Nueva alarma</Button>
 
-            {mostrarNuevoAlarma && (
+            {mostrarNuevoAlarma ? (
                 <Row>
                     <Col md="8">
                         <Card>
@@ -114,8 +128,10 @@ function Alarmas () {
                                                     placeholder="Título"
                                                     type="text"
                                                     value={title}
-                                                    onChange={(e) => setTitle(e.target.value)}
+                                                    onChange={handleChangeTitle}
+                                                    invalid={invalid.title}
                                                 />
+                                                <FormFeedback>El título es obligatorio.</FormFeedback>
                                             </FormGroup>
                                         </Col>
                                         <Col className="pr-md-1" md="6">
@@ -126,8 +142,10 @@ function Alarmas () {
                                                     placeholder="Fecha"
                                                     type="date"
                                                     value={date}
-                                                    onChange={(e) => setDate(e.target.value)}
+                                                    onChange={handleChangeDate}
+                                                    invalid={invalid.date}
                                                 />
+                                                <FormFeedback>La fecha es obligatoria.</FormFeedback>
                                             </FormGroup>
                                         </Col>
                                     </Row>
@@ -140,26 +158,17 @@ function Alarmas () {
                                                     placeholder="Hora"
                                                     type="time"
                                                     value={time}
-                                                    onChange={(e) => setTime(e.target.value)}
+                                                    onChange={handleChangeTime}
+                                                    invalid={invalid.time}
                                                 />
+                                                <FormFeedback>La hora es obligatoria.</FormFeedback>
                                             </FormGroup>
                                         </Col>
-                                        {/* <Col md="6">
-                                            <FormGroup>
-                                                <label>Estado</label>
-                                                <Input
-                                                    id='repite'
-                                                    type="checkbox"
-                                                    checked={repeat}
-                                                    onChange={(e) => setRepeat(e.target.checked)}
-                                                />
-                                            </FormGroup>
-                                        </Col> */}
                                     </Row>
                                 </Form>
                             </CardBody>
                             <CardFooter>
-                            <Notifications />
+                                <Notifications />
                                 <Button className="btn-fill" color="primary" onClick={handleGuardarAlarma}>
                                     Guardar
                                 </Button>
@@ -170,29 +179,31 @@ function Alarmas () {
                         </Card>
                     </Col>
                 </Row>
+            ) : (
+                <div className="table-full-width table-responsive">
+                    <Table>
+                        <tbody>
+                            <h4>Alarmas</h4>
+                            {alarm && alarm
+                                .filter(alarma => alarma.patientId === data.dto?.patientId)
+                                .map((alarma) => (
+                                <tr key={alarma.id}>
+                                    <td>
+                                        <p className="title">{alarma.title}</p>
+                                        <p className="text-muted">{alarma.date}</p>
+                                        <p className="text-muted">{alarma.time}</p>
+                                    </td>
+                                    <td>
+                                        <Button onClick={() => handleBorrarAlarma(alarma.id)}><i className="tim-icons icon-trash-simple"/></Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </div>
             )}
-
-            <div className="table-full-width table-responsive">
-
-                <Table>
-                    <tbody>
-                        {alarm && alarm.map((alarma) => (
-                            <tr key={alarma.id}>
-                                <td>
-                                    <p className="title">{alarma.title}</p>
-                                    <p className="text-muted">{alarma.date}</p>
-                                    <p className="text-muted">{alarma.time}</p>
-                                </td>
-                                <td>
-                                    <Button onClick={() => handleBorrarAlarma(alarma.id)}><i className="tim-icons icon-trash-simple"/></Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </div>
         </div>
-    )
+    );
 }
 
 export default Alarmas;

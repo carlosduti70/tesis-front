@@ -7,36 +7,41 @@ import {
 } from 'reactstrap';
 import useSWR from 'swr';
 import { fetchAlzheimer, AlzheimerReminders } from 'service/alzheimer';
-
-
-
-// // Función para obtener la cantidad de tareas
-// const obtenerCantidadTareas = (data) => {
-//   return data.content.length;
-// };
+import { useData } from 'contexts/DataContext';
 
 const ListaDeTareas = () => {
 
   const { data: reminders, error: remindersError } = useSWR(AlzheimerReminders, fetchAlzheimer, {
     suspense: false,
   }); 
+  const { data } = useData(); // Obtener los datos del contexto
+
+  // Obtener los primeros 5 recordatorios que coincidan con el patientId
+  const totalReminders = reminders 
+    ? reminders.filter(recordatorio => recordatorio.patientId === data.dto?.patientId)
+    : [];
+
+    const filteredReminders = reminders 
+    ? reminders.filter(recordatorio => recordatorio.patientId === data.dto?.patientId).slice(0, 3) 
+    : [];
 
   return (
     <Card className="card-tasks">
       <CardHeader>
-        <h6 className="title d-inline">Lista de recordatorios({reminders ? reminders.length : 0})</h6>
+        <h6 className="title d-inline">Lista de recordatorios ({totalReminders.length})</h6>
       </CardHeader>
       <CardBody>
         <div className="table-full-width table-responsive">
           <Table>
             <tbody>
-              {reminders && reminders.map((tarea) => (
-                <tr key={tarea.id}>
+              <h4>Recordatorios Activos</h4>
+              {filteredReminders.map((recordatorio) => (
+                <tr key={recordatorio.id}>
                   <td>
-                    <p className="title">{tarea.title}</p>
-                    <p className="text-muted">{tarea.description}</p>
-                    <p className="text-muted">{tarea.date}</p>
-                    <p className="text-muted">{tarea.time}</p>
+                    <p className="title">{recordatorio.title}</p>
+                    <p className="text-muted">{recordatorio.description}</p>
+                    <p className="text-muted">{recordatorio.date}</p>
+                    <p className="text-muted">{`${recordatorio.startTime} -- ${recordatorio.endTime}`}</p>
                   </td>
                 </tr>
               ))}
@@ -49,8 +54,3 @@ const ListaDeTareas = () => {
 };
 
 export default ListaDeTareas;
-
-
-// {reminders && reminders.content.map((tarea) => (
-
-//   ))}

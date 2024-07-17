@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { unstable_HistoryRouter  } from 'react-router-dom';
 import classNames from 'classnames';
-import useSWR from 'swr';
-import { fetchAlzheimer, AlzheimerCaragivers } from 'service/alzheimer';
 import {
   Collapse,
   DropdownToggle,
@@ -20,8 +17,10 @@ import {
   Input,
 } from 'reactstrap';
 import { handleLogout } from 'service/security';
+import { useData } from 'contexts/DataContext';
 
 function AdminNavbar(props) {
+  const { data } = useData();
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [modalSearch, setModalSearch] = useState(false);
   const [color, setColor] = useState('navbar-transparent');
@@ -29,8 +28,6 @@ function AdminNavbar(props) {
     { id: 1, message: 'Mike John responded to your email', visible: true },
     // Agrega más notificaciones aquí si es necesario
   ]);
-
-  // const history = unstable_HistoryRouter(); // Usar useHistory para redirigir al usuario
 
   useEffect(() => {
     window.addEventListener('resize', updateColor);
@@ -56,14 +53,6 @@ function AdminNavbar(props) {
     setCollapseOpen(!collapseOpen);
   };
 
-
-    // const handleLogout = () => {
-    //     // Eliminar el token JWT del almacenamiento local
-    //     localStorage.removeItem('token');
-    //     // Redirigir al usuario a la página de inicio de sesión
-    //     history.push('/login');
-    // };
-
   const toggleModalSearch = () => {
     setModalSearch(!modalSearch);
   };
@@ -73,10 +62,6 @@ function AdminNavbar(props) {
       notification.id === id ? { ...notification, visible: false } : notification
     ));
   };
-
-  const { data: caregivers, error: caregiversError } = useSWR(AlzheimerCaragivers, fetchAlzheimer, {
-    suspense: false,
-  });
 
   const visibleNotifications = notifications.filter(notification => notification.visible);
 
@@ -149,24 +134,23 @@ function AdminNavbar(props) {
                   <p className='d-lg-none'>Usuario</p>
                 </DropdownToggle>
                 <DropdownMenu md='2' className='dropdown-navbar' right tag='ul'>
-                  {caregivers && caregivers.map((caregiver, index) => (
-                    <React.Fragment key={index}>
-                      <DropdownItem text>
-                        <div className='photo'>
-                          <img alt='...' src={require('assets/img/anime3.png')} />
-                        </div>
-                      </DropdownItem>
-                      <DropdownItem text>{`${caregiver.name} ${caregiver.lastName}`}</DropdownItem>
-                      <DropdownItem header>USUARIO</DropdownItem>
-                      <DropdownItem text>{caregiver.gmail}</DropdownItem>
-                      <DropdownItem header>CORREO ELECTRÓNICO</DropdownItem>
-                      <DropdownItem text>{caregiver.relationship}</DropdownItem>
-                      <DropdownItem header>PARENTEZCO</DropdownItem>
-                      <DropdownItem divider />
-                    </React.Fragment>
-                  ))}
+                  <DropdownItem text>
+                    <div className='photo'>
+                      <img alt='...' src={require('assets/img/anime3.png')} />
+                    </div>
+                  </DropdownItem>
+                  {/* Verifica si data.dto no es null antes de acceder a sus propiedades */}
+                  <DropdownItem text>
+                    {data.dto ? `${data.dto.name} ${data.dto.userLastName}` : 'Cargando...'}
+                  </DropdownItem>
+                  <DropdownItem header>Nombre</DropdownItem>
+                  <DropdownItem text>
+                    {data.dto ? data.dto.username : 'Cargando...'}
+                  </DropdownItem>
+                  <DropdownItem header>Usuario</DropdownItem>
+                  <DropdownItem divider />
                   <NavLink tag='li'>
-                    <DropdownItem className='nav-item' onClick={handleLogout} >Cerrar sesión</DropdownItem>
+                    <DropdownItem className='nav-item' onClick={handleLogout}>Cerrar sesión</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
