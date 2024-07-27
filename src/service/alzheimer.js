@@ -3,16 +3,23 @@ import axios from "axios";
 // Obtener el token del localStorage
 export const getToken = () => localStorage.getItem('token');
 
+export const baseUrl = 'http://localhost:8081';
+
 // Define las URL base
-export const AlzheimerAlarm = 'http://localhost:8081/alarm';
-export const AlzheimerCaragivers = 'http://localhost:8081/caragivers';
-export const AlzheimerCard = 'http://localhost:8081/card';
-export const AlzheimerConfigurations = 'http://localhost:8081/configurations';
-export const AlzheimerInteractions = 'http://localhost:8081/interactions';
-export const AlzheimerPatient = 'http://localhost:8081/patient';
-export const AlzheimerReminders = 'http://localhost:8081/reminders';
-export const AlzheimerCardName = 'http://localhost:8081/cardName';
-export const AlzheimerRemindersPast = 'http://localhost:8081/reminders/card-reminders';
+export const AlzheimerAlarm = `${baseUrl}/alarm`;
+export const AlzheimerCaragivers = `${baseUrl}/auth/register`;
+export const AlzheimerCard = `${baseUrl}/card`;
+export const AlzheimerConfigurations = `${baseUrl}/configurations`;
+export const AlzheimerInteractions = `${baseUrl}/interactions`;
+export const AlzheimerPatient = `${baseUrl}/patient`;
+export const AlzheimerReminders = `${baseUrl}/reminders`;
+export const AlzheimerCardName = `${baseUrl}/cardName`;
+export const AlzheimerRemindersPast = `${baseUrl}/reminders/card-reminders`;
+
+export const patientAlzheimer = async (url, arg) => {
+    const response = await axios.post(url, arg);
+    return response.data;
+};
 
 // Función para realizar solicitudes GET con autorización
 export const fetchAlzheimer = async (url) => {
@@ -25,13 +32,6 @@ export const fetchAlzheimer = async (url) => {
     const response = await axios.get(url, config);
     return response.data;
 };
-
-
-export const patientAlzheimer = async (url, arg) => {
-    const response = await axios.post(url, arg);
-    return response.data;
-};
-
 
 // Función para realizar solicitudes POST con autorización
 export const createAlzheimer = async (url, arg) => {
@@ -72,7 +72,7 @@ export const deleteAlzheimer = async (url) => {
 // Función de autenticación
 export const authenticate = async (username, password) => {
     try {
-        const response = await axios.post('http://localhost:8081/auth/login', {
+        const response = await axios.post(`${baseUrl}/auth/login`, {
             username: username,
             password: password
         });

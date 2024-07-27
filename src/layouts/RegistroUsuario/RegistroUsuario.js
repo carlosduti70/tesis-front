@@ -31,7 +31,7 @@ function RegistroCaragivers() {
         };
         setTouched(newTouched);
 
-        if (!name || !lastname || !username || !rol || !password) {
+        if (!name || !lastname || !username || !password) {
             // notify("Todos los campos son obligatorios!!", "warning", "tc");
             return;
         }
@@ -43,13 +43,13 @@ function RegistroCaragivers() {
             lastName: lastname
         };
 
-        createAlzheimer(AlzheimerCaragivers, { arg: cuidador })
+        createAlzheimer(AlzheimerCaragivers, cuidador)
             .then(response => {
-                console.log('Cuidador guardado:', response);
+                console.log('Usuario guardado:', response);
                 // notify("Guardado!!", "success", "tc");
             })
             .catch(error => {
-                console.error('Error al guardar el cuidador:', error);
+                console.error('Error al guardar usuario:', error);
                 // notify("Error al guardar", "danger", "tc");
             });
 

@@ -18,16 +18,14 @@ import {
 } from 'reactstrap';
 import { handleLogout } from 'service/security';
 import { useData } from 'contexts/DataContext';
+import { AlzheimerRemindersPast, fetchAlzheimer } from 'service/alzheimer';
 
 function AdminNavbar(props) {
   const { data } = useData();
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [modalSearch, setModalSearch] = useState(false);
   const [color, setColor] = useState('navbar-transparent');
-  const [notifications, setNotifications] = useState([
-    { id: 1, message: 'Mike John responded to your email', visible: true },
-    // Agrega más notificaciones aquí si es necesario
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     window.addEventListener('resize', updateColor);
@@ -64,6 +62,24 @@ function AdminNavbar(props) {
   };
 
   const visibleNotifications = notifications.filter(notification => notification.visible);
+
+  // Obtener interacciones de Alzheimer
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data = await AlzheimerRemindersPast();
+        setNotifications(data.map(interaction => ({
+          id: interaction.id,
+          message: interaction.message,
+          visible: true
+        })));
+      } catch (error) {
+        console.error('Error fetching Alzheimer interactions:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
 
   return (
     <>

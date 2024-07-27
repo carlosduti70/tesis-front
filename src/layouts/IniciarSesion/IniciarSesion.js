@@ -5,7 +5,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import Notifications, { notify } from "views/notificaciones";
-import { authenticate } from "service/alzheimer";
+import { authenticate, baseUrl } from "service/alzheimer";
 import {jwtDecode} from "jwt-decode";
 import { useData } from "contexts/DataContext"; // Ajusta la ruta a tu archivo DataContext
 
@@ -44,7 +44,7 @@ const IniciarSesion = () => {
             localStorage.setItem('token', token);
 
             const claims = jwtDecode(token);
-            const response = await fetch(`http://localhost:8081/patient/get-home/${claims.sub}`);
+            const response = await fetch(`${baseUrl}/patient/get-home/${claims.sub}`);
             const dto = await response.json();
 
             localStorage.setItem('dto', JSON.stringify(dto));
