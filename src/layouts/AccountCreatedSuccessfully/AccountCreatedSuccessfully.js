@@ -14,11 +14,13 @@ const Success = () => {
 
     return (
         <Container className="login-container">
-            <Row className="justify-content-center align-items-center" style={{ minHeight: "50vh" }}>
-                <Col md="6" lg="5" className="text-center">
-                    <h1 className="mb-4">BIENVENIDO!!</h1>
-                    <p>A continuación en la pantalla principal ingresa el usuario y contraseña que acabas de crear.</p>
-                    <Button color="primary" onClick={handleButtonClick}>Aceptar</Button>
+            <Row className="justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+                <Col md="6" lg="6" className="text-center">
+                    <h1 className="mb-4" >BIENVENIDO!!</h1>
+                    <h3 className="mb-4">A continuación en la pantalla principal ingresa el usuario y contraseña que acabas de crear.</h3>
+                    <Button color="primary" onClick={handleButtonClick}>
+                        Aceptar
+                    </Button>
                 </Col>
             </Row>
         </Container>

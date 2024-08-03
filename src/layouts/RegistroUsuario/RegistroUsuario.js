@@ -73,7 +73,7 @@ const RegistroCuidadores = () => {
                     </div>
                     <Card className="shadow-sm">
                         <CardHeader className="text-center text-white">
-                            <h5 className="title">Crear Cuenta</h5>
+                            <h4 className="title">Crear Cuenta</h4>
                         </CardHeader>
                         <CardBody>
                             <Form>

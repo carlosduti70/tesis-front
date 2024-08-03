@@ -79,7 +79,7 @@ function RegistroPaciente() {
                 <Col md="6" lg="5">
                     <Card className="shadow-sm">
                         <CardHeader className="text-center text-white">
-                            <h5 className="title display-5">Crear paciente</h5>
+                            <h4 className="title display-5">Crear paciente</h4>
                         </CardHeader>
                         <CardBody>
                             <Form>
