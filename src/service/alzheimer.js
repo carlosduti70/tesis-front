@@ -15,6 +15,7 @@ export const AlzheimerPatient = `${baseUrl}/patient`;
 export const AlzheimerReminders = `${baseUrl}/reminders`;
 export const AlzheimerCardName = `${baseUrl}/cardName`;
 export const AlzheimerRemindersPast = `${baseUrl}/reminders/card-reminders`;
+export const AlzheimerCards = `${baseUrl}/card`;
 
 export const patientAlzheimer = async (url, arg) => {
     const response = await axios.post(url, arg);

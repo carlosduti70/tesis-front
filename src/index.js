@@ -7,6 +7,7 @@ import RTLLayout from "layouts/RTL/RTL.js";
 import RegistroPaciente from "layouts/RegistroPaciente/RegistroPaciente";
 import RegistroUsuario from "layouts/RegistroUsuario/RegistroUsuario";
 import IniciarSesion from "layouts/IniciarSesion/IniciarSesion";
+import Success from "layouts/AccountCreatedSuccessfully/AccountCreatedSuccessfully";
 import User from "layouts/User/User";
 import PrivateRoute from "service/security";
 
@@ -31,6 +32,7 @@ root.render(
             <Route path="/userregister/*" element={<RegistroUsuario />} />
             <Route path="/rtl/*" element={<RTLLayout />} />
             <Route path="/login/*" element={<IniciarSesion />} />
+            <Route path="/success/*" element={<Success />} />
             <Route path="/userinformations/*" element={<User />} />
             <Route path="/admin/*" element={<PrivateRoute />}>
               <Route path="*" element={<AdminLayout />} />

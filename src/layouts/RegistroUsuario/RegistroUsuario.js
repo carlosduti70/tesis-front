@@ -1,59 +1,60 @@
 import React, { useState } from 'react';
 import {
-    Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col, Container, FormFeedback
+    Button, Card, CardHeader, CardBody, Form, FormGroup, Input, Row, Col, Container, FormFeedback, Spinner
 } from 'reactstrap';
 import { createAlzheimer, AlzheimerCaragivers } from 'service/alzheimer';
 import { useNavigate } from 'react-router-dom';
 // import Notifications, { notify } from "views/notificaciones";
 
-function RegistroCaragivers() {
+const RegistroCuidadores = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [lastname, setLastname] = useState("");
-    const [rol, setRol] = useState("admin");
+    const [rol] = useState("admin");
+    const [loading, setLoading] = useState(false);
     const [touched, setTouched] = useState({
         username: false,
         password: false,
         name: false,
         lastname: false,
-        rol: false,
     });
     const navigate = useNavigate();
 
     const handleGuardarCuidadores = () => {
-        const newTouched = {
+        setLoading(true);
+        setTouched({
             username: true,
             password: true,
             name: true,
             lastname: true,
-            rol: true,
-        };
-        setTouched(newTouched);
+        });
 
         if (!name || !lastname || !username || !password) {
             // notify("Todos los campos son obligatorios!!", "warning", "tc");
+            setLoading(false);
             return;
         }
 
         const cuidador = {
-            username: username,
-            password: password,
-            name: name,
-            lastName: lastname
+            username,
+            password,
+            name,
+            lastName: lastname,
+            role: rol,
         };
 
         createAlzheimer(AlzheimerCaragivers, cuidador)
             .then(response => {
                 console.log('Usuario guardado:', response);
                 // notify("Guardado!!", "success", "tc");
+                navigate('/success');
             })
             .catch(error => {
                 console.error('Error al guardar usuario:', error);
                 // notify("Error al guardar", "danger", "tc");
+                setLoading(false);
             });
-
-        navigate('/admin');
     };
 
     const handleBlur = (field) => () => {
@@ -67,6 +68,9 @@ function RegistroCaragivers() {
         <Container className="login-container">
             <Row className="justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
                 <Col md="6" lg="5">
+                    <div className="d-flex justify-content-center align-items-center" style={{ marginBottom: '8vh' }}>
+                        {loading && <Spinner />}
+                    </div>
                     <Card className="shadow-sm">
                         <CardHeader className="text-center text-white">
                             <h5 className="title">Crear Cuenta</h5>
@@ -136,4 +140,4 @@ function RegistroCaragivers() {
     );
 }
 
-export default RegistroCaragivers;
+export default RegistroCuidadores;

@@ -18,7 +18,7 @@ import {
 } from 'reactstrap';
 import { handleLogout } from 'service/security';
 import { useData } from 'contexts/DataContext';
-import { AlzheimerRemindersPast, fetchAlzheimer } from 'service/alzheimer';
+import { fetchAlzheimer, AlzheimerInteractions } from 'service/alzheimer';
 
 function AdminNavbar(props) {
   const { data } = useData();
@@ -63,16 +63,18 @@ function AdminNavbar(props) {
 
   const visibleNotifications = notifications.filter(notification => notification.visible);
 
-  // Obtener interacciones de Alzheimer
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const data = await AlzheimerRemindersPast();
-        setNotifications(data.map(interaction => ({
+        const data = await fetchAlzheimer(AlzheimerInteractions);
+        const lastThreeInteractions = data.slice(-3).map(interaction => ({
           id: interaction.id,
-          message: interaction.message,
+          dateTime: interaction.dateTime,
+          hour: interaction.hour,
+          title: interaction.title,
           visible: true
-        })));
+        }));
+        setNotifications(lastThreeInteractions);
       } catch (error) {
         console.error('Error fetching Alzheimer interactions:', error);
       }
@@ -124,10 +126,15 @@ function AdminNavbar(props) {
                     visibleNotifications.map((notification) => (
                       <NavLink tag='li' key={notification.id}>
                         <DropdownItem className='nav-item'>
-                          {notification.message}
-                          <button onClick={() => dismissNotification(notification.id)} style={{ marginLeft: '10px' }}>
-                            X
-                          </button>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                              <strong>{notification.title}</strong>
+                              <div>{notification.dateTime} - {notification.hour}</div>
+                            </div>
+                            <button onClick={() => dismissNotification(notification.id)} style={{ marginLeft: '10px' }}>
+                              X
+                            </button>
+                          </div>
                         </DropdownItem>
                       </NavLink>
                     ))

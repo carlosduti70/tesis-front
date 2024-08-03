@@ -9,13 +9,13 @@ import {
     Col,
 } from "reactstrap";
 import useSWR from 'swr';
-import { fetchAlzheimer, AlzheimerCardName } from 'service/alzheimer';
+import { fetchAlzheimer, AlzheimerCards } from 'service/alzheimer';
 
 
 function Cardsname (){
 
     // llamar datos
-    const { data: cardname } = useSWR(AlzheimerCardName, fetchAlzheimer, {
+    const { data: cardname } = useSWR(AlzheimerCards, fetchAlzheimer, {
         suspense: false,
     }); 
 
@@ -31,9 +31,9 @@ function Cardsname (){
             <Table className="tablesorter" responsive>
                 <thead className="text-primary">
                 <tr>
-                    <th>Tarjeta</th>
-                    <th>Identificación</th>
-                    <th>Paciente</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    {/* <th>Tarjeta</th> */}
                 </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,7 @@ function Cardsname (){
                     <tr key={index}>
                     <td>{item.dateTime}</td>
                     <td>{item.hour}</td>
-                    <td>{item.pregunta}</td>
+                    {/* <td>{item.cardUid}</td> */}
                     </tr>
                 ))}
                 </tbody>
