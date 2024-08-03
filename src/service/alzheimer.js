@@ -3,7 +3,7 @@ import axios from "axios";
 // Obtener el token del localStorage
 export const getToken = () => localStorage.getItem('token');
 
-export const baseUrl = 'http://localhost:8081';
+export const baseUrl = 'https://tesis-back-production-e850.up.railway.app';
 
 // Define las URL base
 export const AlzheimerAlarm = `${baseUrl}/alarm`;
